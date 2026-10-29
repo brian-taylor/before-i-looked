@@ -90,13 +90,13 @@ describe('GET /digest/:night', () => {
     const res = await app().request(`/digest/${BAD}`);
     const html = await res.text();
     expect(res.status).toBe(200);
-    expect(html).toContain("1 line(s) didn't parse");
+    expect(html).toMatch(/1 line\(s\) didn(?:'|&#39;)t parse/);
     expect(html).toContain('good-job');
   });
 
   it("doesn't mention bad lines when there are none", async () => {
     const html = await (await app().request(`/digest/${NORMAL}`)).text();
-    expect(html).not.toContain("didn't parse");
+    expect(html).not.toMatch(/didn(?:'|&#39;)t parse/);
   });
 
   it('404s for a night with no file', async () => {
